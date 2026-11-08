@@ -1,0 +1,10 @@
+@model N5JobListViewModel
+@{ ViewData["Title"] = "Việc làm phù hợp"; }
+<div class="n5-container n5-page">
+<div class="n5-section-heading"><div><div class="n5-eyebrow">DÀNH RIÊNG CHO HỒ SƠ CỦA BẠN</div><h1>Việc làm phù hợp</h1><p>Tỷ lệ kỹ năng đáp ứng, cùng những điều bạn có thể bổ sung.</p></div><a class="n5-text-link" asp-action="Index">Tất cả việc làm →</a></div>
+<div class="n5-content-grid"><div class="n5-job-list">
+@foreach (var job in Model.Jobs) { <partial name="N5JobCard" model="job" /> }
+@if (Model.Jobs.Count == 0) { <div class="n5-empty"><span>◇</span><h2>@(Model.MySkills.Count == 0 ? "Thêm kỹ năng để bắt đầu" : "Chưa có gợi ý mới")</h2><p>@(Model.MySkills.Count == 0 ? "RecruitHub cần biết kỹ năng của bạn để tính mức độ phù hợp." : "Các tin đã ứng tuyển sẽ không xuất hiện lại trong gợi ý. Bạn vẫn có thể tìm việc thông thường.")</p><a class="btn btn-primary" asp-controller="N5Profile" asp-action="Edit">Cập nhật hồ sơ</a></div> }
+</div><partial name="N5ProfileAside" model="Model" /></div>
+</div>
+

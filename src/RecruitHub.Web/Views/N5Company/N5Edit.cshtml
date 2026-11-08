@@ -1,0 +1,10 @@
+@model N5CompanyViewModel
+@{ ViewData["Title"] = "Thông tin công ty"; }
+<div class="n5-container n5-page"><div class="n5-section-heading"><div><div class="n5-eyebrow">KHÔNG GIAN NHÀ TUYỂN DỤNG</div><h1>Giới thiệu công ty của bạn.</h1><p>Thông tin này xuất hiện cùng các tin tuyển dụng.</p></div><a class="n5-text-link" asp-controller="N5EmployerJobs" asp-action="Index">Quản lý tin →</a></div>
+<form class="n5-panel n5-form-wide" method="post" asp-action="Edit"><div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3"><label asp-for="Name" class="form-label">Tên công ty</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name"></span></div>
+<div class="mb-3"><label asp-for="Description" class="form-label">Giới thiệu công ty</label><textarea asp-for="Description" rows="6" class="form-control"></textarea><span asp-validation-for="Description"></span></div>
+<div class="mb-3"><label asp-for="Address" class="form-label">Địa chỉ</label><input asp-for="Address" class="form-control" /><span asp-validation-for="Address"></span></div>
+<div class="mb-4"><label asp-for="Website" class="form-label">Website</label><input asp-for="Website" class="form-control" placeholder="https://example.com" /><span asp-validation-for="Website"></span></div>
+<button class="btn btn-primary">Lưu thông tin →</button></form></div>
+
