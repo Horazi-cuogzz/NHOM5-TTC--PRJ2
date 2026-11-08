@@ -1,0 +1,62 @@
+# ====================================================================
+# .gitignore for RecruitHub - DT06 - Nhom 5
+# ====================================================================
+
+# Build & Compilation outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]uild/
+bld/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio / VS Code / IDE cache & configs
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+*.ide/
+*.swp
+*~
+
+# Frontend / Node / Vite
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+**/ClientApp/dist/
+**/ClientApp/dist-ssr/
+.vite/
+
+# Temporary files & Microsoft Office locks
+~$*.docx
+~$*.xlsx
+~$*.pptx
+~$*.doc
+~$*
+
+# Sensitive data, local environment & credentials
+appsettings.*.local.json
+secrets.json
+.env
+.env.*
+*.pfx
+*.certificate
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Tooling & Agent local index
+.codegraph/
