@@ -1,0 +1,27 @@
+@model List<N5Skill>
+@{ ViewData["Title"] = "Danh mục kỹ năng"; }
+<div class="n5-container n5-page"><div class="n5-section-heading"><div><div class="n5-eyebrow">QUẢN TRỊ VIÊN</div><h1>Danh mục kỹ năng</h1><p>Danh mục dùng chung cho hồ sơ ứng viên và tin tuyển dụng.</p></div><a class="btn btn-primary" asp-action="Edit">+ Thêm kỹ năng</a></div>
+<form method="get" asp-action="Index" class="d-flex gap-2 mb-3">
+    <label for="n5-skill-query" class="visually-hidden">Tên kỹ năng</label>
+    <input id="n5-skill-query" type="search" name="query" value="@ViewBag.Query" class="form-control" placeholder="Tìm theo tên kỹ năng" />
+    <button class="btn btn-outline-primary">Tìm</button>
+</form>
+@if (Model.Count == 0)
+{
+    <p class="n5-empty">Không tìm thấy kỹ năng. <a asp-action="Index">Xem tất cả kỹ năng</a></p>
+}
+else
+{
+    <div class="n5-table-wrap"><table class="table n5-table"><thead><tr><th>Kỹ năng</th><th>Trạng thái</th><th></th></tr></thead><tbody>@foreach (var skill in Model) { <tr><td><strong>@skill.Name</strong></td><td><span class="n5-status @(skill.IsActive ? "n5-status-Published" : "n5-status-Closed")">@(skill.IsActive ? "Đang sử dụng" : "Ngừng sử dụng")</span></td><td><a asp-action="Edit" asp-route-id="@skill.Id">Chỉnh sửa ↗</a></td></tr> }</tbody></table></div>
+}
+@if ((int)ViewBag.Pages > 1)
+{
+    <nav class="n5-pagination" aria-label="Phân trang kỹ năng">
+    @for (var i = 1; i <= (int)ViewBag.Pages; i++)
+    {
+        <a asp-action="Index" asp-route-page="@i" asp-route-query="@ViewBag.Query" class="@(i == (int)ViewBag.Page ? "active" : "")">@i</a>
+    }
+    </nav>
+}
+<p class="text-muted mt-3">Kỹ năng ngừng sử dụng vẫn được giữ trong hồ sơ/tin cũ, nhưng không được chọn mới.</p></div>
+

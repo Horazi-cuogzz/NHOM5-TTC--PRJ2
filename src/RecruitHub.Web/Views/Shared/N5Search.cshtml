@@ -1,0 +1,7 @@
+@model N5JobListViewModel
+<form class="n5-search" method="get" asp-controller="N5Jobs" asp-action="Index" role="search">
+    <div class="n5-search-keyword"><span aria-hidden="true">⌕</span><label class="visually-hidden" for="n5-query">Vị trí, công ty hoặc kỹ năng</label><input id="n5-query" name="query" value="@Model.Query" placeholder="Vị trí, công ty hoặc kỹ năng" maxlength="200" /></div>
+    <div class="n5-search-location"><span aria-hidden="true">⌾</span><label class="visually-hidden" for="n5-location">Địa điểm</label><select id="n5-location" name="location"><option value="">Tất cả địa điểm</option>@foreach (var location in Model.Locations) { <option value="@location" selected="@(location == Model.Location)">@location</option> }</select></div>
+    <button class="btn btn-primary" type="submit">Tìm việc <span aria-hidden="true">→</span></button>
+</form>
+
