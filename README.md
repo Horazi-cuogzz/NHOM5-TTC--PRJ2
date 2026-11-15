@@ -59,6 +59,9 @@ TTCĐ-PRJ2/
 ├── Bai_Tuan_3/                         # Báo cáo tiến độ Tuần 3 (Hồ sơ, Tin tuyển dụng & CSDL)
 │   └── Nhom5-DT06-BaoCao-Tuan3.docx
 │
+├── Bai_Tuan_4/                         # Báo cáo tiến độ Tuần 4 (Luồng ứng tuyển & Nghiệp vụ tuyển dụng)
+│   └── Nhom5-DT06-BaoCao-Tuan4.docx
+│
 ├── src/                                # Mã nguồn ứng dụng chính
 │   ├── N5RecruitHub.sln                # Visual Studio Solution
 │   ├── N5Start.ps1                     # Script PowerShell khởi động 1 chạm
