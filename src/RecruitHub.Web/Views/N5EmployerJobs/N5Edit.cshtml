@@ -1,0 +1,19 @@
+@model N5JobEditViewModel
+@{ ViewData["Title"] = Model.Id == 0 ? "Tạo tin tuyển dụng" : "Sửa tin tuyển dụng"; }
+<div class="n5-container n5-page"><a class="n5-back" asp-action="Index">← Tin của công ty</a><div class="n5-section-heading"><div><div class="n5-eyebrow">@(Model.Id == 0 ? "BẢN NHÁP MỚI" : "CẬP NHẬT TIN")</div><h1>@ViewData["Title"]</h1><p>Lưu thông tin trước, sau đó chọn Đăng tin trong danh sách quản lý.</p></div></div>
+<form method="post" asp-action="Save" class="n5-content-grid"><input type="hidden" asp-for="Id" />
+<section class="n5-panel"><h2>Thông tin vị trí</h2><div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3"><label asp-for="Title" class="form-label">Tiêu đề công việc</label><input asp-for="Title" class="form-control" placeholder="Ví dụ: Lập trình viên .NET" /><span asp-validation-for="Title"></span></div>
+<div class="mb-3"><label asp-for="Description" class="form-label">Mô tả và yêu cầu</label><textarea asp-for="Description" class="form-control" rows="9" placeholder="Công việc, yêu cầu và quyền lợi..."></textarea><span asp-validation-for="Description"></span></div>
+<div class="row g-3"><div class="col-md-6"><label asp-for="Location" class="form-label">Địa điểm</label><input asp-for="Location" class="form-control" /><span asp-validation-for="Location"></span></div><div class="col-md-6"><label asp-for="SalaryText" class="form-label">Mức lương</label><input asp-for="SalaryText" class="form-control" placeholder="Ví dụ: 15–25 triệu hoặc Thỏa thuận" /><span asp-validation-for="SalaryText"></span></div></div>
+<div class="mt-3"><label asp-for="Deadline" class="form-label">Hạn nhận hồ sơ</label><input asp-for="Deadline" type="date" class="form-control" asp-format="{0:yyyy-MM-dd}" /><small class="text-muted">Nhận hồ sơ đến hết ngày được chọn, theo giờ Việt Nam.</small><span asp-validation-for="Deadline"></span></div>
+<div class="d-flex gap-3 mt-4"><button class="btn btn-primary" type="submit">Lưu tin tuyển dụng <span class="n5-btn-arrow" aria-hidden="true">→</span></button><a class="btn btn-light" asp-action="Index">Quay lại</a></div></section>
+<aside class="n5-panel"><h2>Kỹ năng yêu cầu</h2><p>Chọn ít nhất một kỹ năng để đăng tin. Các kỹ năng này dùng để tính mức độ phù hợp.</p>
+<div class="n5-skill-counter">Đã chọn: <strong id="n5-selected-count">@Model.SkillIds.Length</strong> kỹ năng</div>
+@if (Model.SkillsLocked) { <div class="alert alert-info">Tin đã có đơn, bộ kỹ năng được giữ nguyên. Muốn đổi kỹ năng, hãy đóng tin và tạo tin mới.</div> }
+<div class="n5-skill-picker">@foreach (var s in Model.SkillOptions)
+{
+<label><input type="checkbox" name="SkillIds" value="@s.Id" checked="@Model.SkillIds.Contains(s.Id)" disabled="@Model.SkillsLocked" /><span>@s.Name @if (!s.IsActive) { <small>(ngừng dùng)</small> }</span></label>
+@if (Model.SkillsLocked && Model.SkillIds.Contains(s.Id)) { <input type="hidden" name="SkillIds" value="@s.Id" /> }
+}</div><span asp-validation-for="SkillIds"></span></aside></form></div>
+

@@ -1,0 +1,16 @@
+@model N5Application
+@{ ViewData["Title"] = "Chi tiết đơn ứng tuyển"; var employer = User.IsInRole("Employer"); }
+<div class="n5-container n5-page"><a class="n5-back" asp-action="Index">← Danh sách đơn</a>
+<div class="n5-section-heading"><div><div class="n5-eyebrow">ĐƠN ỨNG TUYỂN #@Model.Id</div><h1>@Model.JobPosting.Title</h1><p>@Model.JobPosting.Company.Name · Đã gửi @N5Display.Date(Model.AppliedAt)</p></div><span class="n5-status n5-status-@Model.Status">@N5Display.ApplicationStatus(Model.Status)</span></div>
+<div class="n5-content-grid"><div>
+<section class="n5-panel"><h2>@Model.CandidateProfile.User.FullName</h2><div class="n5-job-meta"><span>@Model.CandidateProfile.User.Email</span><span>@Model.CandidateProfile.Phone</span><span>@Model.CandidateProfile.Location</span></div><hr /><h3>Giới thiệu</h3><div class="n5-prose">@Model.CandidateProfile.Introduction</div><h3 class="mt-4">Kỹ năng</h3><div class="n5-chips">@foreach (var skill in Model.CandidateProfile.Skills) { <span class="n5-chip">@skill.Skill.Name</span> }</div>
+<h3 class="mt-4">Học vấn</h3><div class="n5-prose">@(Model.CandidateProfile.Education ?? "Chưa cập nhật")</div><h3 class="mt-4">Kinh nghiệm và dự án</h3><div class="n5-prose">@(Model.CandidateProfile.Experience ?? "Chưa cập nhật")</div><div class="n5-note">Đây là nội dung hồ sơ hiện tại, bao gồm các cập nhật sau ngày gửi đơn.</div></section>
+<section class="n5-panel mt-4"><h2>Thư giới thiệu</h2><div class="n5-prose">@(string.IsNullOrWhiteSpace(Model.CoverLetter) ? "Ứng viên không gửi kèm thư giới thiệu." : Model.CoverLetter)</div></section></div>
+<aside class="n5-panel"><h2>Tiến trình hồ sơ</h2><ol class="n5-timeline"><li class="done">Đã nộp hồ sơ</li><li class="@(Model.Status != N5ApplicationStatus.Submitted ? "done" : "")">Đang xem xét</li><li class="@(Model.Status is N5ApplicationStatus.Accepted or N5ApplicationStatus.Rejected ? "done" : "")">@(Model.Status == N5ApplicationStatus.Accepted ? "Đạt yêu cầu" : Model.Status == N5ApplicationStatus.Rejected ? "Từ chối" : "Kết quả")</li></ol>
+@if (employer)
+{
+    @if (Model.Status == N5ApplicationStatus.Submitted) { <form method="post" asp-action="ChangeStatus" asp-route-id="@Model.Id"><input type="hidden" name="status" value="Reviewing" /><button class="btn btn-primary w-100">Bắt đầu xem xét</button></form> }
+    @if (Model.Status == N5ApplicationStatus.Reviewing) { <form method="post" asp-action="ChangeStatus" asp-route-id="@Model.Id" class="mb-2" data-confirm="Xác nhận hồ sơ đạt yêu cầu? Đây là trạng thái kết thúc."><input type="hidden" name="status" value="Accepted" /><button class="btn btn-primary w-100">Đạt yêu cầu</button></form><form method="post" asp-action="ChangeStatus" asp-route-id="@Model.Id" data-confirm="Xác nhận từ chối hồ sơ? Đây là trạng thái kết thúc."><input type="hidden" name="status" value="Rejected" /><button class="btn btn-outline-danger w-100">Từ chối</button></form> }
+}
+<div class="n5-note">“Đạt yêu cầu” là kết quả xử lý hồ sơ, không thay thế hợp đồng tuyển dụng.</div><a class="n5-text-link" asp-controller="N5Jobs" asp-action="Details" asp-route-id="@Model.JobPostingId">Xem tin tuyển dụng ↗</a></aside></div></div>
+

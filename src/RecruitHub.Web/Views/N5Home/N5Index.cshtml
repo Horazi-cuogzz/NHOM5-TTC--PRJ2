@@ -1,0 +1,174 @@
+@model N5JobListViewModel
+@{ ViewData["Title"] = "Cơ hội IT dành cho bạn"; }
+<section class="n5-hero">
+<div class="n5-container n5-hero-grid">
+    <div class="n5-hero-copy">
+        <div class="n5-eyebrow"><span></span> KẾT NỐI NHÂN TÀI CÔNG NGHỆ</div>
+        <h1>Công việc phù hợp với<br /><em class="n5-wave-text">kỹ năng của bạn.</em></h1>
+        <p>Khám phá cơ hội IT và biết bạn phù hợp ở đâu.<br class="d-none d-sm-block" /> Một bước gần hơn đến công việc tiếp theo.</p>
+        <partial name="N5Search" model="Model" />
+        <div class="n5-popular"><span>Kỹ năng phổ biến:</span>@foreach (var name in new[] { "C#", "React", "SQL Server" }) { <a asp-controller="N5Jobs" asp-action="Index" asp-route-query="@name">@name <span aria-hidden="true">↗</span></a> }</div>
+    </div>
+    <div class="n5-hero-art cdg-wrapper" id="n5-hero-deck" aria-hidden="true">
+        <!-- Ambient drifting glow orbs -->
+        <div class="cdg-orb cdg-orb-1"></div>
+        <div class="cdg-orb cdg-orb-2"></div>
+        <div class="cdg-orb cdg-orb-3"></div>
+
+        <!-- Dot particle grid -->
+        <div class="cdg-grid"></div>
+
+        <!-- 3D Perspective Scene -->
+        <div class="cdg-scene">
+            <!-- Card 1: Frontend Developer -->
+            <div class="cdg-card float-a" data-card="1" data-query="React" title="Xem việc làm React" style="--tx: -195px; --ty: 50px; --tz: -150px; --rx: 11deg; --ry: -17deg; --rz: -7deg; --sc: 0.83; --glow: rgba(14,165,233,0.5); --accent: #0ea5e9; animation-delay: 0s; z-index: 1;">
+                <div class="cdg-card__glass"></div>
+                <div class="cdg-card__glow-ring"></div>
+                <div class="cdg-card__shine"></div>
+                <div class="cdg-card__content">
+                    <div class="cdg-card__badge" style="background: rgba(14,165,233,0.12); color: #0284c7;">Frontend</div>
+                    <div class="cdg-card__role">React Engineer</div>
+                    <div class="cdg-card__meta"><span>📍 TP. HCM</span><span class="cdg-card__salary">18–28 tr</span></div>
+                    <div class="cdg-card__chips"><span>React</span><span>TypeScript</span><span>Tailwind</span></div>
+                </div>
+                <div class="cdg-card__label">
+                    <div class="cdg-card__dot" style="background:#0ea5e9; box-shadow:0 0 8px #0ea5e9;"></div>
+                    <div><p class="cdg-card__name">React UI/UX</p><p class="cdg-card__sub">Modern Web Frontend</p></div>
+                </div>
+                <div class="cdg-card__corner-tl" style="border-color:#0ea5e9;"></div>
+                <div class="cdg-card__corner-br" style="border-color:#0ea5e9;"></div>
+            </div>
+
+            <!-- Card 2: DevOps & Cloud -->
+            <div class="cdg-card float-b" data-card="2" data-query="DevOps" title="Xem việc làm DevOps" style="--tx: 175px; --ty: -70px; --tz: -120px; --rx: -9deg; --ry: 15deg; --rz: 5deg; --sc: 0.86; --glow: rgba(245,158,11,0.5); --accent: #f59e0b; animation-delay: 0.8s; z-index: 2;">
+                <div class="cdg-card__glass"></div>
+                <div class="cdg-card__glow-ring"></div>
+                <div class="cdg-card__shine"></div>
+                <div class="cdg-card__content">
+                    <div class="cdg-card__badge" style="background: rgba(245,158,11,0.12); color: #d97706;">DevOps</div>
+                    <div class="cdg-card__role">Cloud Specialist</div>
+                    <div class="cdg-card__meta"><span>📍 Làm việc từ xa</span><span class="cdg-card__salary">22–35 tr</span></div>
+                    <div class="cdg-card__chips"><span>Docker</span><span>K8s</span><span>AWS / CI-CD</span></div>
+                </div>
+                <div class="cdg-card__label">
+                    <div class="cdg-card__dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></div>
+                    <div><p class="cdg-card__name">Cloud & K8s</p><p class="cdg-card__sub">CI/CD Automation</p></div>
+                </div>
+                <div class="cdg-card__corner-tl" style="border-color:#f59e0b;"></div>
+                <div class="cdg-card__corner-br" style="border-color:#f59e0b;"></div>
+            </div>
+
+            <!-- Card 3: AI & Machine Learning -->
+            <div class="cdg-card float-c" data-card="3" data-query="AI" title="Xem việc làm AI" style="--tx: -105px; --ty: -80px; --tz: -75px; --rx: 7deg; --ry: -9deg; --rz: -4deg; --sc: 0.90; --glow: rgba(139,92,246,0.5); --accent: #8b5cf6; animation-delay: 1.4s; z-index: 3;">
+                <div class="cdg-card__glass"></div>
+                <div class="cdg-card__glow-ring"></div>
+                <div class="cdg-card__shine"></div>
+                <div class="cdg-card__content">
+                    <div class="cdg-card__badge" style="background: rgba(139,92,246,0.12); color: #7c3aed;">AI / Data</div>
+                    <div class="cdg-card__role">AI Engineer</div>
+                    <div class="cdg-card__meta"><span>📍 Hà Nội</span><span class="cdg-card__salary">25–45 tr</span></div>
+                    <div class="cdg-card__chips"><span>Python</span><span>PyTorch</span><span>LLM / NLP</span></div>
+                </div>
+                <div class="cdg-card__label">
+                    <div class="cdg-card__dot" style="background:#8b5cf6; box-shadow:0 0 8px #8b5cf6;"></div>
+                    <div><p class="cdg-card__name">AI & GenAI</p><p class="cdg-card__sub">Machine Learning</p></div>
+                </div>
+                <div class="cdg-card__corner-tl" style="border-color:#8b5cf6;"></div>
+                <div class="cdg-card__corner-br" style="border-color:#8b5cf6;"></div>
+            </div>
+
+            <!-- Card 4: Mobile Flutter & iOS -->
+            <div class="cdg-card float-a" data-card="4" data-query="Flutter" title="Xem việc làm Mobile" style="--tx: 135px; --ty: 75px; --tz: -45px; --rx: -5deg; --ry: 11deg; --rz: 3deg; --sc: 0.93; --glow: rgba(16,185,129,0.5); --accent: #10b981; animation-delay: 2s; z-index: 4;">
+                <div class="cdg-card__glass"></div>
+                <div class="cdg-card__glow-ring"></div>
+                <div class="cdg-card__shine"></div>
+                <div class="cdg-card__content">
+                    <div class="cdg-card__badge" style="background: rgba(16,185,129,0.12); color: #059669;">Mobile</div>
+                    <div class="cdg-card__role">Mobile App Lead</div>
+                    <div class="cdg-card__meta"><span>📍 Đà Nẵng</span><span class="cdg-card__salary">18–30 tr</span></div>
+                    <div class="cdg-card__chips"><span>Flutter</span><span>Swift</span><span>Kotlin</span></div>
+                </div>
+                <div class="cdg-card__label">
+                    <div class="cdg-card__dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></div>
+                    <div><p class="cdg-card__name">Mobile Flutter</p><p class="cdg-card__sub">Cross-Platform Apps</p></div>
+                </div>
+                <div class="cdg-card__corner-tl" style="border-color:#10b981;"></div>
+                <div class="cdg-card__corner-br" style="border-color:#10b981;"></div>
+            </div>
+
+            <!-- Card 5: Backend .NET Core -->
+            <div class="cdg-card float-b" data-card="5" data-query=".NET" title="Xem việc làm .NET" style="--tx: -55px; --ty: 42px; --tz: -20px; --rx: 4deg; --ry: -7deg; --rz: -2deg; --sc: 0.96; --glow: rgba(37,99,235,0.5); --accent: #2563eb; animation-delay: 0.4s; z-index: 5;">
+                <div class="cdg-card__glass"></div>
+                <div class="cdg-card__glow-ring"></div>
+                <div class="cdg-card__shine"></div>
+                <div class="cdg-card__content">
+                    <div class="cdg-card__badge" style="background: rgba(37,99,235,0.12); color: #1d4ed8;">Backend</div>
+                    <div class="cdg-card__role">.NET Core Architect</div>
+                    <div class="cdg-card__meta"><span>📍 Hà Nội</span><span class="cdg-card__salary">20–35 tr</span></div>
+                    <div class="cdg-card__chips"><span>C#</span><span>ASP.NET Core</span><span>SQL Server</span></div>
+                </div>
+                <div class="cdg-card__label">
+                    <div class="cdg-card__dot" style="background:#2563eb; box-shadow:0 0 8px #2563eb;"></div>
+                    <div><p class="cdg-card__name">Backend .NET</p><p class="cdg-card__sub">Enterprise Cloud Services</p></div>
+                </div>
+                <div class="cdg-card__corner-tl" style="border-color:#2563eb;"></div>
+                <div class="cdg-card__corner-br" style="border-color:#2563eb;"></div>
+            </div>
+
+            <!-- Card 6: HERO CARD (Front & Center - RecruitHub Verified Match) -->
+            <div class="cdg-card cdg-card--hero float-hero" data-card="6" data-query=".NET" title="Xem việc làm Lập trình viên .NET phù hợp nhất" style="--tx: 10px; --ty: -12px; --tz: 5px; --rx: 0deg; --ry: 0deg; --rz: 0deg; --sc: 1.0; --glow: rgba(37,99,235,0.65); --accent: #2563eb; animation-delay: 0s; z-index: 10;">
+                <div class="cdg-card__glass"></div>
+                <div class="cdg-card__glow-ring"></div>
+                <div class="cdg-card__shine"></div>
+                <div class="cdg-card__content cdg-card__content--hero">
+                    <div class="cdg-hero-top">
+                        <span class="cdg-hero-logo">rh</span>
+                        <div class="cdg-hero-titles">
+                            <b>Lập trình viên .NET</b>
+                            <small>Cơ hội tốt nhất cho bạn</small>
+                        </div>
+                        <span class="cdg-hero-match">98%<small>phù hợp</small></span>
+                    </div>
+                    <div class="cdg-hero-meta">
+                        <span>⌾ Hà Nội · Hybrid</span>
+                        <span class="cdg-hero-salary">25–40 triệu</span>
+                    </div>
+                    <div class="cdg-hero-tags">
+                        <span class="is-match">✓ C#</span>
+                        <span class="is-match">✓ SQL Server</span>
+                        <span class="is-match">✓ Git</span>
+                        <span>Azure</span>
+                    </div>
+                    <div class="cdg-hero-check">
+                        <span class="cdg-check-icon">✓</span>
+                        <span>Kết nối đúng kỹ năng</span>
+                        <span class="cdg-arrow">↗</span>
+                    </div>
+                </div>
+                <div class="cdg-card__label">
+                    <div class="cdg-card__dot" style="background:#2563eb; box-shadow:0 0 8px #2563eb;"></div>
+                    <div><p class="cdg-card__name">Hồ sơ ứng viên</p><p class="cdg-card__sub">Sẵn sàng cho cơ hội mới</p></div>
+                </div>
+                <div class="cdg-card__corner-tl" style="border-color:#2563eb;"></div>
+                <div class="cdg-card__corner-br" style="border-color:#2563eb;"></div>
+            </div>
+        </div>
+
+        <!-- Bottom caption text matching old project -->
+        <div class="cdg-bottom-text">
+            <span class="cdg-bottom-line"></span>
+            <p>KỸ NĂNG CỦA BẠN · CƠ HỘI CỦA BẠN · RECRUITHUB</p>
+            <span class="cdg-bottom-line"></span>
+        </div>
+    </div>
+</div>
+</section>
+<section class="n5-container n5-home-jobs">
+    <div class="n5-section-heading"><div><div class="n5-eyebrow">BƯỚC TIẾP THEO TRONG SỰ NGHIỆP</div><h2>@(Model.IsRecommendation ? "Việc làm phù hợp" : "Khám phá việc làm IT")</h2><p>@(Model.IsRecommendation ? "Dựa trên kỹ năng trong hồ sơ của bạn" : "Những cơ hội đang mở, sẵn sàng để bạn khám phá.")</p></div><a class="n5-text-link" asp-controller="N5Jobs" asp-action="@(Model.IsRecommendation ? "Recommended" : "Index")">Xem tất cả <span aria-hidden="true">→</span></a></div>
+    <div class="n5-content-grid"><div class="n5-job-list">
+    @foreach (var job in Model.Jobs) { <partial name="N5JobCard" model="job" /> }
+    @if (Model.Jobs.Count == 0) { <div class="n5-empty"><span>⌕</span><h3>Chưa có việc làm phù hợp</h3><p>Bổ sung kỹ năng trong hồ sơ hoặc khám phá thêm các tin đang tuyển.</p><a class="btn btn-primary" asp-controller="N5Jobs" asp-action="Index">Khám phá việc làm</a></div> }
+    </div><partial name="N5ProfileAside" model="Model" /></div>
+</section>
+<section class="n5-container n5-how"><div><span>01</span><h3>Hoàn thiện hồ sơ</h3><p>Giới thiệu bản thân và chọn kỹ năng bạn có.</p></div><div><span>02</span><h3>Tìm đúng cơ hội</h3><p>Xem công việc phù hợp và kỹ năng cần bổ sung.</p></div><div><span>03</span><h3>Kết nối doanh nghiệp</h3><p>Gửi đơn và theo dõi trạng thái ngay trên RecruitHub.</p></div></section>
+

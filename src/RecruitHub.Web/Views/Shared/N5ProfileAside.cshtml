@@ -1,0 +1,22 @@
+@model N5JobListViewModel
+<aside class="n5-profile-aside">
+    <div class="n5-grid-spotlight" aria-hidden="true"></div>
+    <canvas class="n5-grid-beam-cv" aria-hidden="true"></canvas>
+    <div class="n5-aside-top"><span class="n5-small-icon" aria-hidden="true">◇</span><span>HỒ SƠ KỸ NĂNG</span></div>
+    <h3>Kỹ năng của bạn</h3>
+    @if (User.IsInRole("Candidate"))
+    {
+        <p>Hồ sơ rõ ràng, cơ hội phù hợp hơn.</p>
+        <div class="n5-chips mb-4">@foreach (var s in Model.MySkills) { <span class="n5-chip">@s.Name</span> }@if (Model.MySkills.Count == 0) { <span class="text-muted">Bạn chưa thêm kỹ năng.</span> }</div>
+        <a class="btn btn-outline-primary w-100" asp-controller="N5Profile" asp-action="Edit">Cập nhật hồ sơ <span aria-hidden="true">↗</span></a>
+    }
+    else
+    {
+        <p>Thêm những kỹ năng bạn có để khám phá công việc phù hợp.</p>
+        <div class="n5-example-skills"><span>C#</span><span>SQL Server</span><span>React</span></div>
+        @if (User.Identity?.IsAuthenticated != true) { <a class="btn btn-primary w-100" asp-controller="N5Account" asp-action="Register">Tạo hồ sơ ứng viên</a> }
+        else { <a class="btn btn-outline-primary w-100" asp-controller="N5Jobs" asp-action="Index">Khám phá việc làm</a> }
+    }
+    <div class="n5-note"><span aria-hidden="true">ⓘ</span><span>Tỷ lệ phù hợp dựa trên kỹ năng yêu cầu của tin, không phải xác suất được tuyển dụng.</span></div>
+</aside>
+
