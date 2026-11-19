@@ -1,4 +1,0 @@
-@model N5SkillEditViewModel
-@{ ViewData["Title"] = Model.Id == 0 ? "Thêm kỹ năng" : "Sửa kỹ năng"; }
-<div class="n5-container n5-page"><a class="n5-back" asp-action="Index">← Danh mục kỹ năng</a><h1 class="mb-4">@ViewData["Title"]</h1><form method="post" asp-action="Save" class="n5-panel n5-form-narrow"><input type="hidden" asp-for="Id" /><div asp-validation-summary="ModelOnly" class="text-danger"></div><div class="mb-4"><label asp-for="Name" class="form-label">Tên kỹ năng</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name"></span></div><label class="n5-check mb-4"><input asp-for="IsActive" /> Cho phép chọn kỹ năng này</label><button class="btn btn-primary">Lưu kỹ năng</button></form></div>
-
