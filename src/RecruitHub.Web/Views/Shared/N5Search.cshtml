@@ -1,0 +1,43 @@
+@model N5JobListViewModel
+<form class="n5-search" method="get" asp-controller="N5Jobs" asp-action="Index" role="search">
+    <div class="n5-search-keyword">
+        <span aria-hidden="true">⌕</span>
+        <label class="visually-hidden" for="n5-query">Vị trí, công ty hoặc kỹ năng</label>
+        <input id="n5-query" name="query" value="@Model.Query" placeholder="Vị trí, công ty hoặc kỹ năng" maxlength="200" autocomplete="off" />
+    </div>
+    <div class="n5-search-location n5-location-picker" data-popover="false">
+        <span class="n5-loc-icon" aria-hidden="true">⌾</span>
+        <label class="visually-hidden" for="n5-location">Địa điểm</label>
+        <input type="hidden" id="n5-location" name="location" value="@Model.Location" />
+        <button type="button" class="n5-location-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="n5-location-label">@(string.IsNullOrWhiteSpace(Model.Location) ? "Tất cả địa điểm" : Model.Location)</span>
+            <span class="n5-location-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="n5-location-popover" role="listbox" tabindex="-1">
+            <div class="n5-popover-header">
+                <span>Chọn địa điểm làm việc</span>
+                <button type="button" class="n5-popover-clear" style="@(string.IsNullOrWhiteSpace(Model.Location) ? "display:none;" : "")" title="Đặt lại về Tất cả địa điểm">Xóa</button>
+            </div>
+            <div class="n5-location-options">
+                <button type="button" role="option" class="n5-location-opt @(string.IsNullOrWhiteSpace(Model.Location) ? "is-selected" : "")" data-val="">
+                    <span>Tất cả địa điểm</span>
+                    @if (string.IsNullOrWhiteSpace(Model.Location)) { <span class="n5-opt-check" aria-hidden="true">✓</span> }
+                </button>
+                @foreach (var location in Model.Locations)
+                {
+                    var isSelected = location == Model.Location;
+                    <button type="button" role="option" class="n5-location-opt @(isSelected ? "is-selected" : "")" data-val="@location">
+                        <span>@location</span>
+                        @if (isSelected) { <span class="n5-opt-check" aria-hidden="true">✓</span> }
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary n5-btn-liquid" type="submit" aria-label="Tìm việc làm">
+        <span class="n5-liquid-glare" aria-hidden="true"></span>
+        <span class="n5-btn-text">Tìm việc</span>
+        <span class="n5-btn-arrow" aria-hidden="true">→</span>
+    </button>
+</form>
+

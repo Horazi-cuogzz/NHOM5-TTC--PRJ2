@@ -1,0 +1,30 @@
+@model N5JobCardViewModel
+@{ var score = (Model.ScorePercent ?? 0).ToString("0.##", CultureInfo.GetCultureInfo("vi-VN")); }
+<article class="n5-job-card" data-score="@((Model.ScorePercent ?? -1).ToString("0.##", CultureInfo.InvariantCulture))">
+    <div class="n5-company-icon" aria-hidden="true">@Model.CompanyName.FirstOrDefault()</div>
+    <div class="n5-job-content">
+        <div class="n5-job-top"><div><h3><a asp-controller="N5Jobs" asp-action="Details" asp-route-id="@Model.Id">@Model.Title</a></h3><p class="n5-company-name">@Model.CompanyName</p></div><span class="n5-open"><span></span> Đang tuyển</span></div>
+        <div class="n5-job-meta"><span><span aria-hidden="true">⌾</span> @(Model.Location ?? "Chưa cập nhật")</span><span class="n5-salary">@(string.IsNullOrWhiteSpace(Model.SalaryText) ? "Thỏa thuận" : Model.SalaryText)</span><span>Hạn @N5Display.Date(Model.Deadline)</span></div>
+        <div class="n5-job-bottom">
+            @if (Model.ScorePercent.HasValue)
+            {
+                <div class="n5-match" aria-label="@score phần trăm phù hợp">
+                    <div class="n5-match-ring" data-target="@((Model.ScorePercent ?? 0).ToString("0.##", CultureInfo.InvariantCulture))" style="--score:0">
+                        <span class="n5-match-num">0<small>%</small></span>
+                    </div>
+                    <div><strong>@Model.MatchedCount/@Model.RequiredCount kỹ năng</strong><small>phù hợp hồ sơ</small></div>
+                </div>
+                <div class="n5-matching-skills">
+                    <div><small>Đã đáp ứng</small><div class="n5-chips">@foreach (var s in Model.MatchedSkills) { <span class="n5-chip n5-chip-green"><span aria-hidden="true">✓</span> @s.Name</span> }@if (Model.MatchedCount == 0) { <span class="text-muted small">Chưa có kỹ năng trùng</span> }</div></div>
+                    @if (Model.MissingSkills.Count > 0) { <div><small>Còn thiếu</small><div class="n5-chips">@foreach (var s in Model.MissingSkills) { <span class="n5-chip n5-chip-muted">@s.Name</span> }</div></div> }
+                </div>
+            }
+            else
+            {
+                <div class="n5-chips">@foreach (var s in Model.RequiredSkills) { <span class="n5-chip">@s.Name</span> }</div>
+            }
+            <a class="btn btn-outline-primary n5-detail-link" asp-controller="N5Jobs" asp-action="Details" asp-route-id="@Model.Id">Xem chi tiết <span class="n5-btn-arrow" aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+</article>
+

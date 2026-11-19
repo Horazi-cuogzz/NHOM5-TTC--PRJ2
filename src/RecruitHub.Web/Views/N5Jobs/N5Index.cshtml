@@ -1,0 +1,12 @@
+@model N5JobListViewModel
+@{ ViewData["Title"] = "Tìm việc IT"; }
+<section class="n5-page-banner"><div class="n5-container"><div class="n5-eyebrow">KHÁM PHÁ CƠ HỘI</div><h1>Tìm công việc IT tiếp theo.</h1><p>Tìm theo vị trí, công ty hoặc những kỹ năng bạn muốn phát triển.</p><partial name="N5Search" model="Model" /></div></section>
+<div class="n5-container n5-page">
+    <div class="n5-filter-row"><strong>@Model.Total việc làm đang tuyển</strong><form method="get" asp-action="Index" class="d-flex align-items-center gap-2"><input type="hidden" name="query" value="@Model.Query" /><input type="hidden" name="location" value="@Model.Location" /><label for="n5-skill-filter" class="visually-hidden">Lọc kỹ năng</label><select class="form-select" id="n5-skill-filter" name="skillId"><option value="">Tất cả kỹ năng</option>@foreach (var skill in Model.Skills) { <option value="@skill.Id" selected="@(Model.SkillId == skill.Id)">@skill.Name</option> }</select><button class="btn btn-outline-primary">Lọc</button></form></div>
+    <div class="n5-content-grid"><div>
+        <div class="n5-job-list">@foreach (var job in Model.Jobs) { <partial name="N5JobCard" model="job" /> }</div>
+        @if (Model.Jobs.Count == 0) { <div class="n5-empty"><span>⌕</span><h2>Chưa có tin phù hợp bộ lọc</h2><p>Thử đổi từ khóa, địa điểm hoặc kỹ năng.</p><a asp-action="Index">Xóa bộ lọc</a></div> }
+        @if (Model.Pages > 1) { <nav class="n5-pagination" aria-label="Phân trang">@for (var i = 1; i <= Model.Pages; i++) { <a class="@(i == Model.Page ? "active" : "")" asp-action="Index" asp-route-query="@Model.Query" asp-route-location="@Model.Location" asp-route-skillId="@Model.SkillId" asp-route-page="@i" aria-label="Trang @i">@i</a> }</nav> }
+    </div><partial name="N5ProfileAside" model="Model" /></div>
+</div>
+

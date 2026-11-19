@@ -1,0 +1,30 @@
+@model List<N5JobPosting>
+@{ ViewData["Title"] = "Tin tuyển dụng của tôi"; }
+<div class="n5-container n5-page"><div class="n5-section-heading"><div><div class="n5-eyebrow">QUẢN LÝ TUYỂN DỤNG</div><h1>Tin của công ty</h1><p>@ViewBag.Total tin tuyển dụng · Từ bản nháp đến kết nối ứng viên.</p></div><a class="btn btn-primary" asp-action="Create">+ Tạo tin tuyển dụng</a></div>
+<form method="get" asp-action="Index" class="d-flex gap-2 mb-3">
+    <label for="n5-job-search" class="visually-hidden">Tiêu đề tin</label>
+    <input id="n5-job-search" type="search" name="search" value="@ViewBag.Search" class="form-control" placeholder="Tìm theo tiêu đề tin" />
+    <button class="btn btn-outline-primary">Tìm</button>
+</form>
+@if (Model.Count == 0 && !string.IsNullOrEmpty((string?)ViewBag.Search))
+{
+    <p class="n5-empty">Không tìm thấy tin phù hợp. <a asp-action="Index">Xem tất cả tin của công ty</a></p>
+}
+else if (Model.Count == 0) { <div class="n5-empty"><span>＋</span><h2>Bắt đầu với tin đầu tiên</h2><p>Giới thiệu vị trí và những kỹ năng doanh nghiệp đang tìm kiếm.</p><a class="btn btn-primary" asp-action="Create">Tạo tin tuyển dụng</a></div> }
+else
+{
+<div class="n5-table-wrap"><table class="table n5-table"><thead><tr><th>Vị trí tuyển dụng</th><th>Hạn nhận hồ sơ</th><th>Trạng thái</th><th>Đơn</th><th>Thao tác</th></tr></thead><tbody>
+@foreach (var j in Model)
+{
+<tr><td><strong>@j.Title</strong><small>@j.Location</small></td><td>@N5Display.Date(j.Deadline)</td><td><span class="n5-status n5-status-@j.Status">@N5Display.JobStatus(j)</span></td><td><a asp-controller="N5Applications" asp-action="Index" asp-route-jobId="@j.Id">@j.Applications.Count đơn</a></td><td><div class="n5-actions">
+@if (j.Status != N5JobStatus.Closed) { <a class="btn btn-sm btn-light" asp-action="Edit" asp-route-id="@j.Id">Sửa</a> }
+<a class="btn btn-sm btn-light" asp-controller="N5Jobs" asp-action="Details" asp-route-id="@j.Id">Xem</a>
+@if (j.Status == N5JobStatus.Draft) { <form method="post" asp-action="Publish" asp-route-id="@j.Id"><button class="btn btn-sm btn-primary">Đăng tin</button></form> }
+@if (j.Status == N5JobStatus.Published) { <form method="post" asp-action="Close" asp-route-id="@j.Id" data-confirm="Đóng tin này? Tin sẽ ngừng nhận đơn mới và không thể mở lại."><button class="btn btn-sm btn-outline-danger">Đóng tin</button></form> }
+</div></td></tr>
+}
+</tbody></table></div>
+}
+@if ((int)ViewBag.Pages > 1) { <nav class="n5-pagination" aria-label="Phân trang">@for (var i = 1; i <= (int)ViewBag.Pages; i++) { <a asp-action="Index" asp-route-page="@i" asp-route-search="@ViewBag.Search" class="@(i == (int)ViewBag.Page ? "active" : "")">@i</a> }</nav> }
+</div>
+
