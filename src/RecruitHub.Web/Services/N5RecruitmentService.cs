@@ -8,7 +8,8 @@ public class N5RecruitmentService(N5RecruitHubContext db, TimeProvider clock)
 {
     public async Task<(int? Id, string? Error)> ApplyAsync(string userId, int jobId, string? letter)
     {
-        if (letter?.Length > 2000) return (null, "Thư giới thiệu tối đa 2.000 ký tự.");
+        var trimmedLetter = string.IsNullOrWhiteSpace(letter) ? null : letter.Trim();
+        if (trimmedLetter?.Length > 2000) return (null, "Thư giới thiệu tối đa 2.000 ký tự.");
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var profile = await db.CandidateProfiles.Include(p => p.User).Include(p => p.Skills)
             .SingleOrDefaultAsync(p => p.UserId == userId);
@@ -22,7 +23,7 @@ public class N5RecruitmentService(N5RecruitHubContext db, TimeProvider clock)
             return (null, "Tin đã đóng hoặc hết hạn nhận hồ sơ.");
         var application = new N5Application
         {
-            JobPostingId = jobId, CandidateProfileId = profile.Id, CoverLetter = letter?.Trim(),
+            JobPostingId = jobId, CandidateProfileId = profile.Id, CoverLetter = trimmedLetter,
             AppliedAt = clock.GetUtcNow(), Status = N5ApplicationStatus.Submitted
         };
         db.Applications.Add(application);

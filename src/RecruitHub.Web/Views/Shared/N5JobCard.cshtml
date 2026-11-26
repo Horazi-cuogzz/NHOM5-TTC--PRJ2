@@ -4,7 +4,7 @@
     <div class="n5-company-icon" aria-hidden="true">@Model.CompanyName.FirstOrDefault()</div>
     <div class="n5-job-content">
         <div class="n5-job-top"><div><h3><a asp-controller="N5Jobs" asp-action="Details" asp-route-id="@Model.Id">@Model.Title</a></h3><p class="n5-company-name">@Model.CompanyName</p></div><span class="n5-open"><span></span> Đang tuyển</span></div>
-        <div class="n5-job-meta"><span><span aria-hidden="true">⌾</span> @(Model.Location ?? "Chưa cập nhật")</span><span class="n5-salary">@(string.IsNullOrWhiteSpace(Model.SalaryText) ? "Thỏa thuận" : Model.SalaryText)</span><span>Hạn @N5Display.Date(Model.Deadline)</span></div>
+        <div class="n5-job-meta"><span><span aria-hidden="true">⌾</span> @(string.IsNullOrWhiteSpace(Model.Location) ? "Chưa cập nhật" : Model.Location)</span><span class="n5-salary">@(string.IsNullOrWhiteSpace(Model.SalaryText) ? "Thỏa thuận" : Model.SalaryText)</span><span>Hạn @N5Display.Date(Model.Deadline)</span></div>
         <div class="n5-job-bottom">
             @if (Model.ScorePercent.HasValue)
             {

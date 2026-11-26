@@ -16,7 +16,7 @@ else
 <div class="n5-table-wrap"><table class="table n5-table"><thead><tr><th>Vị trí tuyển dụng</th><th>Hạn nhận hồ sơ</th><th>Trạng thái</th><th>Đơn</th><th>Thao tác</th></tr></thead><tbody>
 @foreach (var j in Model)
 {
-<tr><td><strong>@j.Title</strong><small>@j.Location</small></td><td>@N5Display.Date(j.Deadline)</td><td><span class="n5-status n5-status-@j.Status">@N5Display.JobStatus(j)</span></td><td><a asp-controller="N5Applications" asp-action="Index" asp-route-jobId="@j.Id">@j.Applications.Count đơn</a></td><td><div class="n5-actions">
+<tr><td><strong>@j.Title</strong><small>@(string.IsNullOrWhiteSpace(j.Location) ? "Chưa cập nhật" : j.Location)</small></td><td>@N5Display.Date(j.Deadline)</td><td><span class="n5-status n5-status-@j.Status">@N5Display.JobStatus(j)</span></td><td><a asp-controller="N5Applications" asp-action="Index" asp-route-jobId="@j.Id">@j.Applications.Count đơn</a></td><td><div class="n5-actions">
 @if (j.Status != N5JobStatus.Closed) { <a class="btn btn-sm btn-light" asp-action="Edit" asp-route-id="@j.Id">Sửa</a> }
 <a class="btn btn-sm btn-light" asp-controller="N5Jobs" asp-action="Details" asp-route-id="@j.Id">Xem</a>
 @if (j.Status == N5JobStatus.Draft) { <form method="post" asp-action="Publish" asp-route-id="@j.Id"><button class="btn btn-sm btn-primary">Đăng tin</button></form> }

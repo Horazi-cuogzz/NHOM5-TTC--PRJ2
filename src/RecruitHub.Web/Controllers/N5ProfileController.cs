@@ -33,13 +33,16 @@ public class N5ProfileController(N5RecruitHubContext db, N5JobService jobs) : Co
         var previous = p?.Skills.Select(s => s.SkillId).ToArray() ?? [];
         model.Email = user.Email ?? "";
         model.SkillOptions = await jobs.SkillOptionsAsync(previous);
-        var ids = model.SkillIds.Distinct().ToArray();
+        var ids = (model.SkillIds ?? []).Distinct().ToArray();
         if (ids.Length == 0) ModelState.AddModelError(nameof(model.SkillIds), "Vui lòng chọn ít nhất một kỹ năng.");
         if (ids.Any(id => !model.SkillOptions.Any(s => s.Id == id))) ModelState.AddModelError(nameof(model.SkillIds), "Có kỹ năng không còn được chọn mới.");
         if (!ModelState.IsValid) return View("N5Edit", model);
         if (p == null) { p = new N5CandidateProfile { UserId = UserId }; db.CandidateProfiles.Add(p); }
-        user.FullName = model.FullName.Trim(); p.Phone = model.Phone.Trim(); p.Location = model.Location?.Trim();
-        p.Introduction = model.Introduction.Trim(); p.Education = model.Education?.Trim(); p.Experience = model.Experience?.Trim();
+        user.FullName = model.FullName.Trim(); p.Phone = model.Phone.Trim();
+        p.Location = string.IsNullOrWhiteSpace(model.Location) ? null : model.Location.Trim();
+        p.Introduction = model.Introduction.Trim();
+        p.Education = string.IsNullOrWhiteSpace(model.Education) ? null : model.Education.Trim();
+        p.Experience = string.IsNullOrWhiteSpace(model.Experience) ? null : model.Experience.Trim();
         db.CandidateSkills.RemoveRange(p.Skills.Where(s => !ids.Contains(s.SkillId)).ToList());
         foreach (var id in ids.Except(previous)) p.Skills.Add(new N5CandidateSkill { SkillId = id });
         await db.SaveChangesAsync();

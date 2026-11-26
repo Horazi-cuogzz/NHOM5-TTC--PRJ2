@@ -23,10 +23,11 @@ public class N5JobService(N5RecruitHubContext db, TimeProvider clock)
         var now = clock.GetUtcNow();
         var jobs = db.JobPostings.AsNoTracking().Where(j => j.Status == N5JobStatus.Published && j.Deadline >= now);
         query = query?.Trim();
+        location = string.IsNullOrWhiteSpace(location) ? null : location.Trim();
         if (!string.IsNullOrWhiteSpace(query))
             jobs = jobs.Where(j => j.Title.Contains(query) || j.Company.Name.Contains(query) ||
                                   j.Skills.Any(s => s.Skill.Name.Contains(query)));
-        if (!string.IsNullOrWhiteSpace(location)) jobs = jobs.Where(j => j.Location == location);
+        if (location != null) jobs = jobs.Where(j => j.Location == location);
         if (skillId.HasValue) jobs = jobs.Where(j => j.Skills.Any(s => s.SkillId == skillId));
         
         var mySkills = await MySkillsAsync(userId);
@@ -100,7 +101,7 @@ public class N5JobService(N5RecruitHubContext db, TimeProvider clock)
             : await db.JobPostings.Include(j => j.Skills).SingleOrDefaultAsync(j => j.Id == input.Id && j.CompanyId == company.Id);
         if (job == null) return (0, "Không tìm thấy tin thuộc công ty của bạn.");
         if (job.Status == N5JobStatus.Closed) return (0, "Tin đã đóng không thể sửa.");
-        var selected = input.SkillIds.Distinct().ToHashSet();
+        var selected = (input.SkillIds ?? []).Distinct().ToHashSet();
         var previous = job.Skills.Select(s => s.SkillId).ToHashSet();
         if (input.Id != 0 && await db.Applications.AnyAsync(a => a.JobPostingId == job.Id) && !selected.SetEquals(previous))
             return (0, "Tin đã nhận đơn phải giữ nguyên bộ kỹ năng yêu cầu.");
@@ -110,7 +111,9 @@ public class N5JobService(N5RecruitHubContext db, TimeProvider clock)
         if (job.Status == N5JobStatus.Published && (selected.Count == 0 || deadline < clock.GetUtcNow()))
             return (0, "Tin đã đăng cần ít nhất một kỹ năng và hạn nhận hồ sơ hợp lệ.");
         job.Title = input.Title.Trim(); job.Description = input.Description.Trim();
-        job.Location = input.Location?.Trim(); job.SalaryText = input.SalaryText?.Trim(); job.Deadline = deadline;
+        job.Location = string.IsNullOrWhiteSpace(input.Location) ? null : input.Location.Trim();
+        job.SalaryText = string.IsNullOrWhiteSpace(input.SalaryText) ? null : input.SalaryText.Trim();
+        job.Deadline = deadline;
         foreach (var removed in job.Skills.Where(s => !selected.Contains(s.SkillId)).ToList())
             db.JobSkills.Remove(removed);
         foreach (var id in selected.Except(previous)) job.Skills.Add(new N5JobSkill { SkillId = id });

@@ -27,7 +27,10 @@ public class N5CompanyController(N5RecruitHubContext db) : Controller
         if (!ModelState.IsValid) return View("N5Edit", model);
         var c = await db.Companies.SingleOrDefaultAsync(c => c.EmployerUserId == UserId);
         if (c == null) { c = new N5Company { EmployerUserId = UserId }; db.Companies.Add(c); }
-        c.Name = model.Name.Trim(); c.Description = model.Description?.Trim(); c.Address = model.Address?.Trim(); c.Website = model.Website?.Trim();
+        c.Name = model.Name.Trim();
+        c.Description = string.IsNullOrWhiteSpace(model.Description) ? null : model.Description.Trim();
+        c.Address = string.IsNullOrWhiteSpace(model.Address) ? null : model.Address.Trim();
+        c.Website = string.IsNullOrWhiteSpace(model.Website) ? null : model.Website.Trim();
         await db.SaveChangesAsync();
         TempData["Success"] = "Đã lưu thông tin công ty thành công! Bạn có thể quản lý và đăng tin tuyển dụng.";
         return RedirectToAction("Index", "N5EmployerJobs");

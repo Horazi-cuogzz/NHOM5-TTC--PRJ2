@@ -5,6 +5,6 @@
 <section class="n5-auth-form"><h2>Đăng nhập</h2><p>Tiếp tục hành trình nghề nghiệp của bạn.</p><form method="post" asp-action="Login"><input type="hidden" asp-for="ReturnUrl" /><div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 <div class="mb-3"><label asp-for="Email" class="form-label">Email</label><input asp-for="Email" class="form-control" autocomplete="username" placeholder="ban@example.com" /><span asp-validation-for="Email"></span></div>
 <div class="mb-3"><label asp-for="Password" class="form-label">Mật khẩu</label><input asp-for="Password" class="form-control" autocomplete="current-password" /><span asp-validation-for="Password"></span></div>
-<label class="n5-check mb-4"><input asp-for="RememberMe" /> Ghi nhớ đăng nhập</label><button class="btn btn-primary w-100">Đăng nhập →</button></form><p class="n5-auth-switch">Chưa có tài khoản? <a asp-action="Register">Đăng ký ngay</a></p></section>
+<label class="n5-check mb-4"><input asp-for="RememberMe" /> Ghi nhớ đăng nhập</label><button class="btn btn-primary w-100">Đăng nhập <span class="n5-btn-arrow" aria-hidden="true">→</span></button></form><p class="n5-auth-switch">Chưa có tài khoản? <a asp-action="Register">Đăng ký ngay</a></p></section>
 </div>
 

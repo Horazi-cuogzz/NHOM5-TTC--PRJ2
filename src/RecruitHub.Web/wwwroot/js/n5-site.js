@@ -1,6 +1,24 @@
 // RecruitHub Animation & Micro-interaction Engine (Inspired by Lucian UX/UI Prompt)
 // Quyền và nghiệp vụ luôn được kiểm soát an toàn tại máy chủ.
 
+function silenceViewTransitionSkip(vt) {
+  if (!vt) return;
+  if (vt.updateCallbackDone) vt.updateCallbackDone.catch(function () {});
+  if (vt.ready) vt.ready.catch(function () {});
+  if (vt.finished) vt.finished.catch(function () {});
+}
+window.addEventListener("pageswap", function (e) {
+  silenceViewTransitionSkip(e.viewTransition);
+});
+window.addEventListener("pagereveal", function (e) {
+  silenceViewTransitionSkip(e.viewTransition);
+});
+window.addEventListener("unhandledrejection", function (e) {
+  if (e.reason && e.reason.name === "AbortError" && String(e.reason.message).indexOf("Transition was skipped") !== -1) {
+    e.preventDefault();
+  }
+});
+
 $(function () {
   const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -26,6 +44,8 @@ $(function () {
   $(window).on("pageshow", function () {
     $("form").removeData("submitting").find("button").prop("disabled", false).removeClass("n5-btn-loading");
     $("body").removeClass("n5-page-exit-back");
+    $(".n5-job-card.n5-navigating").removeClass("n5-navigating");
+    updateSkillCounter();
   });
 
   // 3. Tự động đóng thông báo flash sau 4.5 giây với hiệu ứng mờ dần
@@ -214,7 +234,7 @@ $(function () {
       H = aside.offsetHeight;
       cv.width = W * dpr;
       cv.height = H * dpr;
-      cx.scale(dpr, dpr);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     resize();
     $(window).on("resize", resize);
@@ -458,23 +478,27 @@ $(function () {
     }
     updateSkillCounter();
   });
+  updateSkillCounter();
 
   // 12. Pattern #002: Magnetic Arrow Button (Hệ nút bấm hút con trỏ chuột & mũi tên trượt)
   if (!rm && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     const magneticSelector = ".btn, .n5-detail-link";
+    const arrowSelector = ".n5-btn-arrow, span[aria-hidden='true']:not(.n5-liquid-glare)";
     $(document).on("pointermove", magneticSelector, function (e) {
       const btn = this;
+      if (btn.classList.contains("n5-btn-loading")) return;
       const rect = btn.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       const dx = e.clientX - centerX;
       const dy = e.clientY - centerY;
 
-      const moveX = Math.max(-8, Math.min(8, dx * 0.16));
-      const moveY = Math.max(-6, Math.min(6, dy * 0.16));
+      const maxX = btn.classList.contains("w-100") ? 4 : 8;
+      const moveX = Math.max(-maxX, Math.min(maxX, dx * 0.16));
+      const moveY = Math.max(-5, Math.min(5, dy * 0.16));
       btn.style.transform = `translate(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px)`;
 
-      const arrow = btn.querySelector(".n5-btn-arrow, [aria-hidden='true']");
+      const arrow = btn.querySelector(arrowSelector);
       if (arrow) {
         const arrowX = moveX * 0.5 + 4;
         const arrowY = moveY * 0.4;
@@ -485,7 +509,7 @@ $(function () {
     $(document).on("pointerleave", magneticSelector, function () {
       const btn = this;
       btn.style.transform = "";
-      const arrow = btn.querySelector(".n5-btn-arrow, [aria-hidden='true']");
+      const arrow = btn.querySelector(arrowSelector);
       if (arrow) arrow.style.transform = "";
     });
   }
@@ -496,17 +520,20 @@ $(function () {
       const $list = $(this);
       const $cards = $list.children(".n5-job-card");
       if ($cards.length > 1) {
-        const hasScores = $cards.toArray().some(function (card) {
+        const orig = $cards.toArray();
+        const hasScores = orig.some(function (card) {
           const s = parseFloat(card.getAttribute("data-score") || "-1");
           return s >= 0;
         });
         if (hasScores) {
-          const sorted = $cards.toArray().sort(function (a, b) {
+          const sorted = orig.slice().sort(function (a, b) {
             const sa = parseFloat(a.getAttribute("data-score") || "-1");
             const sb = parseFloat(b.getAttribute("data-score") || "-1");
             return sb - sa;
           });
-          $list.append(sorted);
+          if (sorted.some(function (el, idx) { return el !== orig[idx]; })) {
+            $list.append(sorted);
+          }
         }
       }
     });

@@ -32,7 +32,7 @@ body {
   font-size: 15px;
   line-height: 1.65;
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 a {
   color: var(--n5-blue);
@@ -145,18 +145,18 @@ main {
 }
 /* Pattern #002: Magnetic Arrow Button - Mũi tên trượt đàn hồi */
 .btn .n5-btn-arrow,
-.btn > span[aria-hidden="true"],
+.btn > span[aria-hidden="true"]:not(.n5-liquid-glare),
 .btn > span:not([class]) {
   display: inline-block;
   margin-left: 6px;
   transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .btn:hover .n5-btn-arrow,
-.btn:hover > span[aria-hidden="true"] {
+.btn:hover > span[aria-hidden="true"]:not(.n5-liquid-glare) {
   transform: translateX(4px);
 }
 .btn:active .n5-btn-arrow,
-.btn:active > span[aria-hidden="true"] {
+.btn:active > span[aria-hidden="true"]:not(.n5-liquid-glare) {
   transform: translateX(2px) scale(0.95);
 }
 .form-control,
@@ -344,6 +344,11 @@ main {
   border-bottom: 1px solid #e0eaf8;
   overflow: visible;
   position: relative;
+  z-index: 15;
+}
+.n5-hero-copy:has(.is-popover-open) {
+  position: relative;
+  z-index: 20;
 }
 .n5-hero:after {
   content: "";
@@ -800,7 +805,7 @@ main {
   width: 320px;
   height: 430px;
   transform-style: preserve-3d;
-  margin: 20px auto 10px;
+  margin: 16px auto 34px;
 }
 
 /* ── Base 3D Card ── */
@@ -1250,19 +1255,19 @@ main {
   }
   30% {
     transform:
-      translate3d(calc(var(--tx, 0px) + var(--px, 0px) + 6px), calc(var(--ty, 0px) + var(--py, 0px) - 10px), 8px)
+      translate3d(calc(var(--tx, 0px) + var(--px, 0px) + 6px), calc(var(--ty, 0px) + var(--py, 0px) - 10px), calc(var(--tz, 0px) + 8px))
       rotateX(calc(var(--rx, 0deg) + var(--prx, 0deg) + 2deg))
       rotateY(calc(var(--ry, 0deg) + var(--pry, 0deg) - 2.5deg))
       rotateZ(0.5deg)
-      scale(1.01);
+      scale(calc(var(--sc, 1) * 1.01));
   }
   70% {
     transform:
-      translate3d(calc(var(--tx, 0px) + var(--px, 0px) - 6px), calc(var(--ty, 0px) + var(--py, 0px) + 8px), 8px)
+      translate3d(calc(var(--tx, 0px) + var(--px, 0px) - 6px), calc(var(--ty, 0px) + var(--py, 0px) + 8px), calc(var(--tz, 0px) + 8px))
       rotateX(calc(var(--rx, 0deg) + var(--prx, 0deg) - 2deg))
       rotateY(calc(var(--ry, 0deg) + var(--pry, 0deg) + 2.5deg))
       rotateZ(-0.5deg)
-      scale(1.01);
+      scale(calc(var(--sc, 1) * 1.01));
   }
 }
 
@@ -1321,6 +1326,17 @@ main {
 }
 .n5-text-link span {
   margin-left: 8px;
+}
+.n5-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.n5-heading-actions .btn {
+  padding: 9px 16px;
+  font-size: 13px;
 }
 .n5-content-grid {
   display: grid;
@@ -1697,6 +1713,8 @@ main {
   padding: 38px 0;
   background: #eaf2ff;
   border-bottom: 1px solid #dce7fa;
+  position: relative;
+  z-index: 15;
 }
 .n5-page-banner p {
   color: var(--n5-muted);
@@ -2580,9 +2598,10 @@ main {
     font-size: 11px;
     margin-top: 23px;
   }
-  .n5-section-heading > .btn {
+  .n5-section-heading > .btn,
+  .n5-heading-actions .btn {
     font-size: 11px;
-    padding: 9px 12px;
+    padding: 8px 12px;
   }
   .n5-home-jobs {
     padding-top: 29px;
@@ -2844,8 +2863,8 @@ body.n5-page-exit-back main {
   }
 }
 .n5-stagger-item {
-  opacity: 0;
-  animation: n5-stagger-fade-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 1;
+  animation: n5-stagger-fade-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: calc(var(--n5-stagger-d, 0) * 1ms);
 }
 

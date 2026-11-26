@@ -6,9 +6,13 @@
     <input id="n5-skill-query" type="search" name="query" value="@ViewBag.Query" class="form-control" placeholder="Tìm theo tên kỹ năng" />
     <button class="btn btn-outline-primary">Tìm</button>
 </form>
-@if (Model.Count == 0)
+@if (Model.Count == 0 && !string.IsNullOrEmpty((string?)ViewBag.Query))
 {
     <p class="n5-empty">Không tìm thấy kỹ năng. <a asp-action="Index">Xem tất cả kỹ năng</a></p>
+}
+else if (Model.Count == 0)
+{
+    <div class="n5-empty"><span>＋</span><h2>Chưa có kỹ năng nào</h2><p>Thêm kỹ năng đầu tiên để ứng viên và nhà tuyển dụng sử dụng.</p><a class="btn btn-primary" asp-action="Edit">Thêm kỹ năng</a></div>
 }
 else
 {
